@@ -1,6 +1,5 @@
 import { Outlet } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-
 import NavigationTabs from "./NavigationTabs";
 import type { SocialNetwork, User } from "../types";
 import Header from "./Header";
@@ -15,9 +14,6 @@ export default function DevTree({ data }: DevTreeProps) {
   const [enabledLinks, setEnabledLinks] = useState<SocialNetwork[]>(
     JSON.parse(data.links).filter((item: SocialNetwork) => item.enabled)
   );
-
-  console.log(JSON.parse(data.links));
-  console.log(enabledLinks);
 
   useEffect(() => {
     setEnabledLinks(
