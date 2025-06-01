@@ -16,6 +16,8 @@ export type LoginForm = Pick<User, "email"> & {
   password: string;
 };
 
+export type ProfileForm = Pick<User, "handle" | "description">;
+
 export type SocialNetwork = {
   id: number;
   name: string;
