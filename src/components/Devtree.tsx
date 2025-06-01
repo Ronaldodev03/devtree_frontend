@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import NavigationTabs from "./NavigationTabs";
 import type { SocialNetwork, User } from "../types";
@@ -29,7 +29,16 @@ export default function DevTree({ data }: DevTreeProps) {
         <main className="mx-auto max-w-5xl p-10 md:p-0">
           <NavigationTabs />
 
-          <div className="flex justify-end"></div>
+          <div className="flex justify-end">
+            <Link
+              className="font-bold text-right text-slate-800 text-2xl"
+              to={`/${data.handle}`}
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              Visitar Mi Perfil: /{data.handle}
+            </Link>
+          </div>
 
           <div className="flex flex-col md:flex-row gap-10 mt-10">
             <div className="flex-1 ">
