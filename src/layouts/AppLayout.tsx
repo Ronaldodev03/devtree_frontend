@@ -11,6 +11,9 @@ const AppLayout = () => {
     name: "ronaldo",
     email: "ronaldosalazar45@test.com",
     _id: "1",
+    description: "description",
+    image: "img_url",
+    links: `[{"id":1,"name":"instagram","url":"link_url","enabled":true}]`,
   } as User;
 
   if (isLoading) return "Cargando...";
