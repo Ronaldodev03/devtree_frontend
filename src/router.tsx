@@ -6,6 +6,7 @@ import AppLayout from "./layouts/AppLayout";
 import HomeView from "./views/HomeView";
 import ProfileView from "./views/ProfileView";
 import DevtreeView from "./views/DevtreeView";
+import NotFoundView from "./views/NotFoundView";
 
 export default function Router() {
   return (
@@ -22,6 +23,10 @@ export default function Router() {
         </Route>
 
         <Route path="/" element={<HomeView />} />
+
+        <Route path="/404" element={<AuthLayout />}>
+          <Route element={<NotFoundView />} index={true} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
