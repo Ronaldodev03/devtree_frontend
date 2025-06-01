@@ -1,20 +1,15 @@
+import { useQuery } from "@tanstack/react-query";
 import { Navigate } from "react-router-dom";
+import { getUser } from "../api/DevtreeAPI";
 import Devtree from "../components/Devtree";
-import type { User } from "../types";
 
 const AppLayout = () => {
-  // first check if user authed
-  const isLoading = false;
-  const isError = false;
-  const data = {
-    handle: "roro",
-    name: "ronaldo",
-    email: "ronaldosalazar45@test.com",
-    _id: "1",
-    description: "description",
-    image: "img_url",
-    links: `[{"id":1,"name":"instagram","url":"link_url","enabled":true}]`,
-  } as User;
+  const { data, isLoading, isError } = useQuery({
+    queryFn: getUser,
+    queryKey: ["user"],
+    retry: 1,
+    refetchOnWindowFocus: false,
+  });
 
   if (isLoading) return "Cargando...";
   if (isError) return <Navigate to={"/auth/login"} />;
