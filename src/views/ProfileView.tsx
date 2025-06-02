@@ -25,8 +25,11 @@ export default function ProfileView() {
     onError: (error) => {
       toast.error(error.message);
     },
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       toast.success(data);
+      queryClient.invalidateQueries({ queryKey: ["user"] });
+    },
+    onMutate: async () => {
       queryClient.invalidateQueries({ queryKey: ["user"] });
     },
   });
