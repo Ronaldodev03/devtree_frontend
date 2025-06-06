@@ -56,10 +56,11 @@ export default function ProfileView() {
   };
 
   const handleUserProfileForm = (formData: ProfileForm) => {
-    const user: User = queryClient.getQueryData(["user"])!;
-    user.description = formData.description;
-    user.handle = formData.handle;
-    updateProfileMutation.mutate(user);
+    updateProfileMutation.mutate({
+      ...data,
+      description: formData.description,
+      handle: formData.handle,
+    });
   };
 
   return (
