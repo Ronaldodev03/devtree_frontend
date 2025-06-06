@@ -22,7 +22,7 @@ export default function RegisterView() {
     watch,
     reset,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm({ defaultValues: initialValues });
 
   const password = watch("password");
@@ -146,8 +146,10 @@ export default function RegisterView() {
         </div>
 
         <input
+          disabled={isSubmitting}
           type="submit"
-          className="bg-cyan-400 p-3 text-lg w-full uppercase text-slate-600 rounded-lg font-bold cursor-pointer"
+          className={`bg-cyan-400 p-3 text-lg w-full uppercase text-slate-600 rounded-lg font-bold cursor-pointer
+         ${isSubmitting ? "opacity-50" : "opacity-100"}`}
           value="Crear Cuenta"
         />
       </form>

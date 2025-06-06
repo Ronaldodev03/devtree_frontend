@@ -16,7 +16,7 @@ export default function LoginView() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm({ defaultValues: initialValues });
 
   const handleLogin = async (formData: LoginForm) => {
@@ -78,8 +78,10 @@ export default function LoginView() {
         </div>
 
         <input
+          disabled={isSubmitting}
           type="submit"
-          className="bg-cyan-400 p-3 text-lg w-full uppercase text-slate-600 rounded-lg font-bold cursor-pointer"
+          className={`bg-cyan-400 p-3 text-lg w-full uppercase text-slate-600 rounded-lg font-bold cursor-pointer
+          ${isSubmitting ? "opacity-50" : "opacity-100"}`}
           value="Iniciar Sesión"
         />
       </form>
