@@ -29,9 +29,9 @@ export default function ProfileView() {
       toast.success(data);
       queryClient.invalidateQueries({ queryKey: ["user"] });
     },
-    onMutate: async () => {
-      queryClient.invalidateQueries({ queryKey: ["user"] });
-    },
+    // onMutate: async () => {
+    //   queryClient.invalidateQueries({ queryKey: ["user"] });
+    // },
   });
 
   const uploadImageMutation = useMutation({
