@@ -1,11 +1,13 @@
 import { Link } from "react-router-dom";
 
 export default function HomeNavigation() {
+  const hasAuthToken = !!localStorage.getItem("AUTH_TOKEN");
+
   return (
     <>
       <Link
         className="text-white p-2 uppercase font-black text-xs cursor-pointer"
-        to="/auth/login"
+        to={hasAuthToken ? "/admin" : "/auth/login"}
       >
         Iniciar Sesión
       </Link>
