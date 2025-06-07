@@ -8,6 +8,7 @@ import ProfileView from "./views/ProfileView";
 import DevtreeView from "./views/DevtreeView";
 import NotFoundView from "./views/NotFoundView";
 import HandleView from "./views/HandleView";
+import CronJob from "./views/CronJobView";
 
 export default function Router() {
   return (
@@ -22,6 +23,8 @@ export default function Router() {
           <Route index={true} element={<DevtreeView />} />
           <Route path="profile" element={<ProfileView />} />
         </Route>
+
+        <Route path="/cron-job" element={<CronJob />} />
 
         <Route path="/:handle" element={<AuthLayout />}>
           <Route element={<HandleView />} index={true} />
