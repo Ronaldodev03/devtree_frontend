@@ -13,7 +13,7 @@ export default function LinkTreeView() {
   const queryClient = useQueryClient();
   const user: User = queryClient.getQueryData(["user"])!;
 
-  const { mutate } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: updateProfile,
     onError: (error) => {
       toast.error(error.message);
@@ -132,7 +132,9 @@ export default function LinkTreeView() {
           />
         ))}
         <button
-          className="bg-cyan-400 p-2 text-lg w-full uppercase text-slate-600 rounded-lg font-bold"
+          disabled={isPending}
+          className={`bg-cyan-400 p-3 text-lg w-full uppercase text-slate-600 rounded-lg font-bold cursor-pointer
+          ${isPending ? "opacity-50" : "opacity-100"}`}
           onClick={() => mutate(queryClient.getQueryData(["user"])!)}
         >
           Guardar Cambios

@@ -113,8 +113,10 @@ export default function ProfileView() {
       </div>
 
       <input
+        disabled={updateProfileMutation.isPending}
         type="submit"
-        className="bg-cyan-400 p-2 text-lg w-full uppercase text-slate-600 rounded-lg font-bold cursor-pointer"
+        className={`bg-cyan-400 p-3 text-lg w-full uppercase text-slate-600 rounded-lg font-bold cursor-pointer
+          ${updateProfileMutation.isPending ? "opacity-50" : "opacity-100"}`}
         value="Guardar Cambios"
       />
     </form>
