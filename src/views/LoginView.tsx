@@ -10,8 +10,8 @@ import MensajeLoader from "../components/MensajeLoader";
 export default function LoginView() {
   const navigate = useNavigate();
   const initialValues: LoginForm = {
-    email: "",
-    password: "",
+    email: "correo@correo.com",
+    password: "correocorreo",
   };
 
   const {
