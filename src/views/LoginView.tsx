@@ -2,6 +2,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { isAxiosError } from "axios";
+import { useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
 import ErrorMessage from "../components/ErrorMessage";
 import type { LoginForm } from "../types";
 import api from "../config/axios";
@@ -9,6 +11,15 @@ import MensajeLoader from "../components/MensajeLoader";
 
 export default function LoginView() {
   const navigate = useNavigate();
+
+  const queryClient = useQueryClient();
+
+  // Borra la query "user" al montar el componente
+  // Prerequisito para que funcione esta solucion: Solo poder acceder a esta ruta si no hay token
+  useEffect(() => {
+    queryClient.removeQueries({ queryKey: ["user"] });
+  }, [queryClient]);
+
   const initialValues: LoginForm = {
     email: "correo@correo.com",
     password: "correocorreo",
