@@ -1,6 +1,14 @@
 import { Link, Outlet } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import { DndContext, type DragEndEvent, closestCenter } from "@dnd-kit/core";
+import {
+  DndContext,
+  closestCenter,
+  PointerSensor,
+  TouchSensor,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+} from "@dnd-kit/core";
 import {
   SortableContext,
   verticalListSortingStrategy,
@@ -27,6 +35,21 @@ export default function DevTree({ data }: DevTreeProps) {
       JSON.parse(data.links).filter((item: SocialNetwork) => item.enabled)
     );
   }, [data]);
+
+  // Configuración de sensores para móvil
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 5, // Requiere 5px de movimiento para iniciar arrastre
+      },
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 250, // Retraso de 250ms para distinguir toque/arrastre
+        tolerance: 5, // Tolerancia de 5px
+      },
+    })
+  );
 
   const queryClient = useQueryClient();
   const handleDragEnd = (e: DragEndEvent) => {
@@ -90,6 +113,7 @@ export default function DevTree({ data }: DevTreeProps) {
               </p>
 
               <DndContext
+                sensors={sensors}
                 collisionDetection={closestCenter}
                 onDragEnd={handleDragEnd}
               >
