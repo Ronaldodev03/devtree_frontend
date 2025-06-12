@@ -4,6 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import ErrorMessage from "./ErrorMessage";
 import { searchByHandle } from "../api/DevtreeAPI";
 import { Link } from "react-router-dom";
+import MensajeLoader from "./MensajeLoader";
 
 export default function SearchForm() {
   const {
@@ -45,7 +46,7 @@ export default function SearchForm() {
       {errors.handle && <ErrorMessage>{errors.handle.message}</ErrorMessage>}
 
       <div className="mt-10">
-        {mutation.isPending && <p className="text-center">Cargando...</p>}
+        {mutation.isPending && <MensajeLoader className="text-center" />}
         {mutation.error && (
           <p className="text-center text-red-600 font-black">
             {mutation.error.message}
@@ -62,8 +63,10 @@ export default function SearchForm() {
       </div>
 
       <input
+        disabled={mutation.isPending}
         type="submit"
-        className="bg-cyan-400 p-3 text-lg w-full uppercase text-slate-600 rounded-lg font-bold cursor-pointer"
+        className={`bg-cyan-400 p-3 text-lg w-full uppercase text-slate-600 rounded-lg font-bold cursor-pointer
+          ${mutation.isPending ? "opacity-50" : "opacity-100"}`}
         value="Obtener mi DevTree"
       />
     </form>

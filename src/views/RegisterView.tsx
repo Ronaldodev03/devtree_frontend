@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import type { RegisterForm } from "../types";
 import ErrorMessage from "../components/ErrorMessage";
 import api from "../config/axios";
+import MensajeLoader from "../components/MensajeLoader";
 
 export default function RegisterView() {
   const location = useLocation();
@@ -153,6 +154,8 @@ export default function RegisterView() {
           value="Crear Cuenta"
         />
       </form>
+
+      {isSubmitting && <MensajeLoader className="text-center text-white" />}
 
       <nav className="mt-10">
         <Link className="text-center text-white text-lg block" to="/auth/login">

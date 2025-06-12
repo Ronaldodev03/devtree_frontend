@@ -5,6 +5,7 @@ import { isAxiosError } from "axios";
 import ErrorMessage from "../components/ErrorMessage";
 import type { LoginForm } from "../types";
 import api from "../config/axios";
+import MensajeLoader from "../components/MensajeLoader";
 
 export default function LoginView() {
   const navigate = useNavigate();
@@ -85,6 +86,8 @@ export default function LoginView() {
           value="Iniciar Sesión"
         />
       </form>
+
+      {isSubmitting && <MensajeLoader className="text-center text-white" />}
 
       <nav className="mt-10">
         <Link
