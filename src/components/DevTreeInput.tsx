@@ -22,7 +22,7 @@ export default function DevTreeInput({
 
       <input
         type="text"
-        className="flex-1 border border-gray-100 rounded-lg"
+        className="flex-1 border border-gray-100 rounded-lg w-full"
         value={item.url}
         onChange={handleUrlChange}
         name={item.name}
