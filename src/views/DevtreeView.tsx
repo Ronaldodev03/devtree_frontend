@@ -46,13 +46,95 @@ export default function LinkTreeView() {
 
   const links: SocialNetwork[] = JSON.parse(user.links);
 
+  // const handleEnableLink = (socialNetwork: string) => {
+  //   const updatedLinks = devTreeLinks.map((link) => {
+  //     if (link.name === socialNetwork) {
+  //       if (isValidUrl(link.url)) {
+  //         return { ...link, enabled: !link.enabled };
+  //       } else {
+  //         toast.error("URL no Válida");
+  //       }
+  //     }
+  //     return link;
+  //   });
+
+  //   setDevTreeLinks(updatedLinks);
+
+  //   let updatedItems: SocialNetwork[] = [];
+  //   const selectedSocialNetwork = updatedLinks.find(
+  //     (link) => link.name === socialNetwork
+  //   );
+  //   if (selectedSocialNetwork?.enabled) {
+  //     const id = links.filter((link) => link.id).length + 1;
+  //     if (links.some((link) => link.name === socialNetwork)) {
+  //       updatedItems = links.map((link) => {
+  //         if (link.name === socialNetwork) {
+  //           return {
+  //             ...link,
+  //             enabled: true,
+  //             id,
+  //           };
+  //         } else {
+  //           return link;
+  //         }
+  //       });
+  //     } else {
+  //       const newItem = {
+  //         ...selectedSocialNetwork,
+  //         id,
+  //       };
+  //       updatedItems = [...links, newItem];
+  //     }
+  //   } else {
+  //     const indexToUpdate = links.findIndex(
+  //       (link) => link.name === socialNetwork
+  //     );
+  //     updatedItems = links.map((link) => {
+  //       if (link.name === socialNetwork) {
+  //         return {
+  //           ...link,
+  //           id: 0,
+  //           enabled: false,
+  //         };
+  //       } else if (
+  //         link.id > indexToUpdate &&
+  //         indexToUpdate !== 0 &&
+  //         link.id === 1
+  //       ) {
+  //         return {
+  //           ...link,
+  //           id: link.id - 1,
+  //         };
+  //       } else {
+  //         return link;
+  //       }
+  //     });
+  //   }
+
+  //   // Almacenar en la base de datos
+  //   queryClient.setQueryData(["user"], (prevData: User) => {
+  //     return {
+  //       ...prevData,
+  //       links: JSON.stringify(updatedItems),
+  //     };
+  //   });
+  // };
+
   const handleEnableLink = (socialNetwork: string) => {
+    // Función para generar el próximo ID único
+    const getNextId = (items: SocialNetwork[]) => {
+      const maxId = items.reduce((max, item) => Math.max(max, item.id || 0), 0);
+      return maxId + 1;
+    };
+
+    // 1. Actualizar el estado local de los links (devTreeLinks)
     const updatedLinks = devTreeLinks.map((link) => {
       if (link.name === socialNetwork) {
         if (isValidUrl(link.url)) {
           return { ...link, enabled: !link.enabled };
         } else {
-          toast.error("URL no Válida");
+          toast.error("URL no válida");
+          return link; // Mantener el estado actual si la URL no es válida
         }
       }
       return link;
@@ -60,64 +142,57 @@ export default function LinkTreeView() {
 
     setDevTreeLinks(updatedLinks);
 
+    // 2. Preparar los items actualizados para la base de datos
     let updatedItems: SocialNetwork[] = [];
     const selectedSocialNetwork = updatedLinks.find(
       (link) => link.name === socialNetwork
     );
+
     if (selectedSocialNetwork?.enabled) {
-      const id = links.filter((link) => link.id).length + 1;
+      // Caso: Habilitar un link
+      const nextId = getNextId(links); // Obtener ID único
+
       if (links.some((link) => link.name === socialNetwork)) {
+        // Si el link ya existía, actualizarlo
         updatedItems = links.map((link) => {
           if (link.name === socialNetwork) {
             return {
               ...link,
               enabled: true,
-              id,
+              id: nextId, // Asignar nuevo ID único
             };
-          } else {
-            return link;
           }
+          return link;
         });
       } else {
-        const newItem = {
-          ...selectedSocialNetwork,
-          id,
-        };
-        updatedItems = [...links, newItem];
+        // Si es un link nuevo, agregarlo
+        updatedItems = [
+          ...links,
+          {
+            ...selectedSocialNetwork,
+            id: nextId, // Asignar nuevo ID único
+          },
+        ];
       }
     } else {
-      const indexToUpdate = links.findIndex(
-        (link) => link.name === socialNetwork
-      );
+      // Caso: Deshabilitar un link (no modificamos el ID)
       updatedItems = links.map((link) => {
         if (link.name === socialNetwork) {
           return {
             ...link,
-            id: 0,
             enabled: false,
+            // Mantener el ID existente (no lo reseteamos)
           };
-        } else if (
-          link.id > indexToUpdate &&
-          indexToUpdate !== 0 &&
-          link.id === 1
-        ) {
-          return {
-            ...link,
-            id: link.id - 1,
-          };
-        } else {
-          return link;
         }
+        return link;
       });
     }
 
-    // Almacenar en la base de datos
-    queryClient.setQueryData(["user"], (prevData: User) => {
-      return {
-        ...prevData,
-        links: JSON.stringify(updatedItems),
-      };
-    });
+    // 3. Actualizar la caché de React Query y la base de datos
+    queryClient.setQueryData(["user"], (prevData: User) => ({
+      ...prevData,
+      links: JSON.stringify(updatedItems),
+    }));
   };
 
   return (
