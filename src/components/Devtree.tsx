@@ -84,7 +84,7 @@ export default function DevTree({ data }: DevTreeProps) {
 
           <div className="flex justify-end">
             <Link
-              className="font-bold text-right text-slate-800 text-2xl"
+              className="font-bold text-right text-slate-800 text-2xl hover:text-blue-500"
               to={`/${data.handle}`}
               target="_blank"
               rel="noreferrer noopener"

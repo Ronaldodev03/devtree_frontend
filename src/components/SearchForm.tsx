@@ -53,9 +53,13 @@ export default function SearchForm() {
           </p>
         )}
         {mutation.data && (
-          <p className="text-center text-cyan-500 font-black">
+          <p className="text-center font-black text-cyan-500">
             {mutation.data} ir a{" "}
-            <Link to={"/auth/register"} state={{ handle: slugify(handle) }}>
+            <Link
+              className="text-black underline"
+              to={"/auth/register"}
+              state={{ handle: slugify(handle) }}
+            >
               Registro
             </Link>
           </p>
